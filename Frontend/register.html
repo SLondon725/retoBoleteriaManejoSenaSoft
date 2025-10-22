@@ -32,25 +32,25 @@
                 <div class="row">
                     <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                     <div class="col-lg-7">
-                        <div class="p-5">
+                        <div class="p-3">
                             <div class="text-center">
-                                <h1 class="h5 mb-4">Registrate</h1>
+                                <h1 class="h6 mb-4">Registrate</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" id="formulario_crear_cuenta">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label for="nombresUsuario">Nombres</label>
-                                        <input type="text" class="form-control form-control-user" id="nombresUsuario">
+                                        <input type="text" class="form-control" id="nombresUsuario">
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="apellidosUsuario">Apellidos</label>
-                                        <input type="text" class="form-control form-control-user" id="apellidosUsuario">
+                                        <input type="text" class="form-control" id="apellidosUsuario">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0" >
                                         <label for="tipoDocumento">Tipo de documento</label>
-                                        <select name="tipoDocumento" id="tipoDocumento">
+                                        <select name="tipoDocumento" id="tipoDocumento" class="form-control">
                                             <option value="">Tipo de documento</option>
                                             <option value="CC">Cédula de ciudadanía</option>
                                             <option value="CE">Cédula de extranjería</option>
@@ -59,31 +59,32 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="identificacion">Numero de identificación</label>
-                                        <input type="number" class="form-control form-control-user" id="identificacion">
+                                        <input type="number" class="form-control" id="identificacion">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="identificacion">Correo electronico</label>
-                                    <input type="email" class="form-control form-control-user" id="emailUsuario" name="emailUsuario">
+                                    <input type="email" class="form-control" id="emailUsuario" name="emailUsuario">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label for="contrasenaUsuario">Contraseña</label>
-                                        <input type="password" class="form-control form-control-user"
-                                        id="contrasenaUsuario" placeholder="Password">
+                                        <input type="password" class="form-control" id="contrasenaUsuario">
                                     </div>
                                     <div class="col-sm-6">
-                                        <label for="contrasenaUsuario">Confirmar Contraseña</label>
-                                        <input type="password" class="form-control form-control-user"
-                                        id="confirmarContrasenaUsuario">
+                                        <label for="contrasenaUsuario">Confirmar contraseña</label>
+                                        <input type="password" class="form-control" id="confirmarContrasenaUsuario">
                                     </div>
                                 </div>
-                                <input type="submit" class="btn btn-primary btn-user" value="Registrar">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="telefonoUsuario">Telefono</label>
+                                        <input type="number" class="form-control" id="telefonoUsuario">
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Registrar">
                             </form>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">¿Olvidaste tu contraseña?</a>
-                            </div>
+                            <hr>    
                             <div class="text-center">
                                 <a class="small" href="login.html">¿Ya tienes una cuenta? Inicia Sesion!</a>
                             </div>
