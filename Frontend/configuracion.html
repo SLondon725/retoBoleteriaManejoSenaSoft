@@ -9,16 +9,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Modulo de eventos</title>
+    <title>SB Admin 2 - Tables</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -27,7 +30,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
+         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -130,59 +133,71 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Boleteria</h1>
-                    </div>
-
-                    <div class="row">
-
-                        <!-- Registrar Localidad Detalle -->
-                        <div class="col-xl-12 col-md-12 mb-12">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="h5 font-weight-bold text-primary text-uppercase mb-1">
-                                               Registrar Boleteria de los eventos
-                                            </div>
-                                            <div class="h6 mb-0 font-weight-bold text-gray-800 mt-3">
-                                                <form id="formulario_boleteria">
-                                                    <div class="row">
-                                                        <div class="form-group col-6">
-                                                            <label for="id_evento">Evento</label>
-                                                            <select class="form-control form-control-user" id="id_evento" required>
-                                                                <option value="">Seleccione un evento</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-6">
-                                                            <label for="id_localidad">Localidad</label>
-                                                            <select class="form-control form-control-user" id="id_localidad" required>
-                                                                <option value="">Seleccione una localidad</option>
-                                                            </select>
-                                                        </div>
-                                                         <div class="form-group col-6">
-                                                            <label for="precio">Precio</label>
-                                                            <input type="number" class="form-control form-control-user" id="precio" step="0.01" required>
-                                                        </div>
-                                                        <div class="form-group col-6">
-                                                            <label for="cantidad_disponible">Cantidad disponible</label>
-                                                            <input type="number" class="form-control form-control-user" id="cantidad_disponible" required>
-                                                        </div>
-                                                    </div>
-                                                    <input type="submit" class="btn btn-primary btn-user" value="Registrar">
-                                                </form>
-                                            </div>
-                                        </div>
+                   
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Editar datos del usuario</h6>
+                        </div>
+                        <div class="card-body">
+                            <form class="user" id="formulario_crear_cuenta">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label for="nombresUsuario">Nombres</label>
+                                        <input type="text" class="form-control" id="nombresUsuario">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="apellidosUsuario">Apellidos</label>
+                                        <input type="text" class="form-control" id="apellidosUsuario">
                                     </div>
                                 </div>
-                            </div>
+                                <!-- el campo tipoDocumento y identificacion no se pueden modificar-->
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0" >
+                                        <label for="tipoDocumento">Tipo de documento</label>
+                                        <select name="tipoDocumento" id="tipoDocumento" class="form-control">
+                                            <option value="">Tipo de documento</option>
+                                            <option value="CC">Cédula de ciudadanía</option>
+                                            <option value="CE">Cédula de extranjería</option>
+                                            <option value="PA">Pasaporte</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="identificacion">Numero de identificación</label>
+                                        <input type="number" class="form-control" id="identificacion">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="identificacion">Correo electronico</label>
+                                    <input type="email" class="form-control" id="emailUsuario" name="emailUsuario">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contraseñaAnterior">Contraseña nueva</label>
+                                    <input type="password" class="form-control" id="contraseñaAnterior">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label for="contrasenaUsuario">Contraseña nueva</label>
+                                        <input type="password" class="form-control" id="contrasenaUsuario">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="contrasenaUsuario">Confirmar nueva contraseña</label>
+                                        <input type="password" class="form-control" id="confirmarContrasenaUsuario">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label for="telefonoUsuario">Telefono</label>
+                                        <input type="number" class="form-control" id="telefonoUsuario">
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Editar">
+                            </form>
                         </div>
-
-                        
                     </div>
                 </div>
                 <!-- /.container-fluid -->
+
             </div>
             <!-- End of Main Content -->
 
@@ -202,6 +217,12 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -212,13 +233,16 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    <!-- API Configuration -->
-    <script src="js/config/api.js"></script>
-    <!-- Data Loader -->
-    <script src="js/utils/dataLoader.js"></script>
-    <!-- Module scripts -->
-    <script src="./js/modulos/boleteria.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 
 </html>
+
+
