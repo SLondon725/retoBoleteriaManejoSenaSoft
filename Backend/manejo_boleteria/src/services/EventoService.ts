@@ -1,8 +1,8 @@
 import { AppDataSource } from "@/config/database";
+import { Repository } from "typeorm";
 import { Eventos } from "@/entities/Eventos";
 import { Municipio } from "@/entities/Municipio";
 import { EstadoEvento } from "@/entities/EstadoEvento";
-import { Repository } from "typeorm";
 
 export class EventoService {
     private readonly eventoRepository: Repository<Eventos>;

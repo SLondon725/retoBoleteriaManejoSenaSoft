@@ -27,7 +27,7 @@ export class ArtistaEventoService {
         }
 
         // Verificar si hay solapamiento de fechas
-        if(await this.haySolapamiento(artistaEventoData.idArtista!, new Date(eventoNuevo.fechaInicio), new Date(eventoNuevo.fechaFin))){
+        if(await this.conflictoHorario(artistaEventoData.idArtista!, new Date(eventoNuevo.fechaInicio), new Date(eventoNuevo.fechaFin))){
             throw new Error('El artista ya tiene un evento en ese rango de fechas');
         }
 
@@ -42,7 +42,7 @@ export class ArtistaEventoService {
         return await this.artistaEventoRepository.save(artistaEvento);
     }
 
-    async haySolapamiento(idArtista: number, fechaInicioNuevo: Date, fechaFinNuevo: Date): Promise<boolean> {
+    async conflictoHorario(idArtista: number, fechaInicioNuevo: Date, fechaFinNuevo: Date): Promise<boolean> {
         const eventosSolapados = await this.artistaEventoRepository.createQueryBuilder('artistaEvento')
         .where('artistaEvento.idArtista = :idArtista', { idArtista })
         .andWhere('artistaEvento.fechaInicio < :fechaFinNuevo AND artistaEvento.fechaFin > :fechaInicioNuevo', { fechaInicioNuevo, fechaFinNuevo })
