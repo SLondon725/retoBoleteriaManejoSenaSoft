@@ -112,42 +112,28 @@
                                             </div>
                                             <div class="h6 mb-0 font-weight-bold text-gray-800 mt-3">
                                                 <!-- Formulario artista -->
-                                                <form id="form_artista">
-                                                    <div class="row">
-                                                        <div class="col-4">
-                                                            <div class="form-group">
-                                                                <label for="codigo_artista">Codigo artista</label>
-                                                                <input type="text" class="form-control form-control-user" id="codigo_artista">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="form-group">
-                                                                <label for="nombre_artista">Nombres artista</label>
-                                                                <input type="text" class="form-control form-control-user" id="nombre_artista">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="form-group">
-                                                                <label for="apellido_artista">Apellidos artista</label>
-                                                                <input type="text" class="form-control form-control-user" id="apellido_artista">
-                                                            </div>
-                                                        </div>
+                                                <form id="formulario_artista">
+                                                    <div class="form-group">
+                                                        <label for="nombre_artista">Nombre del artista</label>
+                                                        <input type="text" class="form-control form-control-user" id="nombre_artista" required>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="form-group">
-                                                                <label for="genero_musica_artista">Genero de musica del artista</label>
-                                                                <input type="text" class="form-control form-control-user" id="genero_musica_artista">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                             <div class="form-group">
-                                                                <label for="ciudad_natal_artista">Ciudad natal del artista</label>
-                                                                <select name="ciudad_natal_artista" id="ciudad_natal_artista" class="form-control form-control-user">
-                                                                    <!-- Aqui se necesitaria el js de los municipios -->
-                                                                </select>
-                                                            </div>        
-                                                        </div>
+                                                    <div class="form-group">
+                                                        <label for="descripcion_artista">Descripción del artista</label>
+                                                        <textarea class="form-control form-control-user" id="descripcion_artista" rows="3" required></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="genero_musical">Género musical</label>
+                                                        <select class="form-control form-control-user" id="genero_musical" required>
+                                                            <option value="">Seleccione un género</option>
+                                                            <option value="1">Rock</option>
+                                                            <option value="2">Pop</option>
+                                                            <option value="3">Reggaeton</option>
+                                                            <option value="4">Salsa</option>
+                                                            <option value="5">Vallenato</option>
+                                                            <option value="6">Electrónica</option>
+                                                            <option value="7">Jazz</option>
+                                                            <option value="8">Clásica</option>
+                                                        </select>
                                                     </div>
                                                     <input type="submit" class="btn btn-primary btn-user" value="Registrar">
                                                 </form>
@@ -191,6 +177,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <!-- API Configuration -->
+    <script src="js/config/api.js"></script>
+    <!-- Data Loader -->
+    <script src="js/utils/dataLoader.js"></script>
+    <!-- Module scripts -->
+    <script src="./js/modulos/artistas.js"></script>
 
 </body>
 

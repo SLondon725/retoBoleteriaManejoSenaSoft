@@ -2,39 +2,38 @@ import { AppDataSource } from "@/config/database";
 import { Artistas } from "@/entities/Artistas";
 import { ArtistaEventos } from "@/entities/ArtistaEventos";
 import { Repository } from "typeorm";
+import { Eventos } from "@/entities/Eventos";
 
 export class ArtistaService {
     private readonly artistaRepository: Repository<Artistas>;
     private readonly artistaEventoRepository: Repository<ArtistaEventos>;
+    private readonly eventoRepository: Repository<Eventos>;
     
 
     constructor(){
         this.artistaRepository = AppDataSource.getRepository(Artistas);
         this.artistaEventoRepository = AppDataSource.getRepository(ArtistaEventos);
+        this.eventoRepository = AppDataSource.getRepository(Eventos);
     }    
 
-    async crearArtista(artistaData: Partial<Artistas>): Promise<Artistas> {
+    async crearArtista(artistaEventoData: Partial<ArtistaEventos>): Promise<Artistas> {
         
-        // Verificar que el género musical existe
-        const generoMusical = await this.artistaEventoRepository.findOne({
-            where: { idArtista: artistaData.idGeneroMusical }
+        //Validar que el artista no este asginado a ningun evento a la misma hora
+        const evento = await this.eventoRepository.findOne({
+            where: { idEvento: artistaEventoData.idEvento}
         });
 
-        if (!generoMusical) {
-            throw new Error('El género musical especificado no existe');
-        }
-
-        // Verificar que el municipio existe
-        const municipio = await this.municipioRepository.findOne({
-            where: { idMunicipio: artistaData.idCiudadOrigen }
+        const eventoHora = await this.eventoRepository.findOne({
+            where: { horaInicio: evento?.horaInicio}
         });
 
-        if (!municipio) {
-            throw new Error('El municipio especificado no existe');
+
+        if (!eventoHora) {
+            throw new Error('El artista ya tiene un evento asignado a esta hora ');
         }
         
         const artistaExistente = await this.artistaRepository.findOne({
-            where: { nombre: artistaData.nombre }
+            where: { nombre: artistaEventoData. }
         });
         
         if (artistaExistente) {

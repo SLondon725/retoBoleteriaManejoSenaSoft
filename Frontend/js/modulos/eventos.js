@@ -1,3 +1,4 @@
+// Variables del DOM
 let formulario = document.getElementById("formulario_evento");
 let nombreEvento = document.getElementById("nombre_evento");
 let descripcionEvento = document.getElementById("descripcion_evento");
@@ -5,70 +6,118 @@ let fechaInicioEvento = document.getElementById("fecha_inicio_evento");
 let fechaFinEvento = document.getElementById("fecha_fin_evento");
 let horaInicioEvento = document.getElementById("horaI_evento");
 let horaFinEvento = document.getElementById("horaF_evento");
-let lugarRealizacion = document.getElementById("lugarRealizacion");
-let idMunicipio = document.getElementById("idMunicipio");
+let lugarRealizacionInput = document.getElementById("lugarRealizacion");
+let idMunicipioInput = document.getElementById("idMunicipio");
+let idEstadoEventoInput = document.getElementById("idEstadoEvento");
 
-
-formulario.addEventListener("submit", (e) => {
-
+// Event listener para el formulario
+formulario.addEventListener("submit", async (e) => {
     e.preventDefault();
-    let evento = {
-        nombre: nombreEvento.value,
-        descripcion: descripcionEvento.value,
-        fechaI: fechaInicioEvento.value,
-        fechaF: fechaFinEvento.value,
-        horaI: horaInicioEvento.value,
-        horaF: horaFinEvento.value,
-        lugarR: lugarRealizacion.value,
-        idMuni: idMunicipio.value
-    }
-
-    registrarEvento(evento);
-    console.log(evento)
+    await registrarEvento();
 });
 
-let registrarEvento = async() =>{
-    const nombre =  nombreEvento.value;
-    const descripcion = descripcionEvento.value;
-    const fechaI =  fechaInicioEvento.value;
-    const fechaF =  fechaFinEvento.value;
-    const horaI =  horaInicioEvento.value;
-    const horaF = horaFinEvento.value;
-    const lugarR = lugarRealizacion.value;
-    const idMuni = idMunicipio.value;
+// Función para registrar evento usando la API
+let registrarEvento = async () => {
+    const nombre = nombreEvento.value.trim();
+    const descripcion = descripcionEvento.value.trim();
+    const fechaInicio = fechaInicioEvento.value;
+    const fechaFin = fechaFinEvento.value;
+    const horaInicio = horaInicioEvento.value;
+    const horaFin = horaFinEvento.value;
+    const lugarRealizacion = lugarRealizacionInput.value.trim();
+    const idMunicipio = parseInt(idMunicipioInput.value);
+    const idEstadoEvento = parseInt(idEstadoEventoInput.value);
 
-    if(nombre == "" || descripcion == "" || fechaI == "" || fechaF == "" || horaI == "" || horaF == "" || lugarR == "" || idMuni == ""){
-        alert("Hay campos vacios, por favor ingrese todos los datos solicitados");
-        return;         
+    // Validación de campos
+    if (!nombre || !descripcion || !fechaInicio || !fechaFin || !horaInicio || !horaFin || !lugarRealizacion || !idMunicipio || !idEstadoEvento) {
+        mostrarMensaje("Hay campos vacíos, por favor ingrese todos los datos solicitados", "error");
+        return;
     }
 
-    try{
-
-        const peticion = await fetch("http://localhost:3000/manejo_boleteria/eventos", 
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nombre,
-                descripcion,
-                fechaI,
-                horaI,
-                horaF,
-                fechaF,
-                lugarR,
-                idMuni
-            })      
-        });
-
-        if (!peticion.ok) throw new Error("Error al registrar el evento");
-
-        const data = await peticion.json();
-        console.log(data.data);
-        alert("Evento registrado exitosamente! ID: "+data.data.id);   
+    // Validación de fechas
+    if (new Date(fechaInicio) >= new Date(fechaFin)) {
+        mostrarMensaje("La fecha de fin debe ser posterior a la fecha de inicio", "error");
+        return;
     }
-    catch(error){
-        console.error(error);
+
+    try {
+        const evento = {
+            nombre,
+            descripcion,
+            fechaInicio,
+            fechaFin,
+            horaInicio,
+            horaFin,
+            lugarRealizacion,
+            idMunicipio,
+            idEstadoEvento
+        };
+
+        const response = await apiClient.createEvento(evento);
+        
+        if (response.success) {
+            mostrarMensaje(`Evento registrado exitosamente! ID: ${response.data.id}`, "success");
+            limpiarFormulario();
+            cargarEventos(); // Recargar la lista de eventos
+        } else {
+            mostrarMensaje(response.message || "Error al registrar el evento", "error");
+        }
+    } catch (error) {
+        console.error("Error al registrar evento:", error);
+        mostrarMensaje("Error de conexión con el servidor", "error");
     }
-}
+};
+
+// Función para cargar y mostrar eventos
+let cargarEventos = async () => {
+    try {
+        const response = await apiClient.getEventos();
+        if (response.success) {
+            mostrarEventos(response.data);
+        }
+    } catch (error) {
+        console.error("Error al cargar eventos:", error);
+        mostrarMensaje("Error al cargar los eventos", "error");
+    }
+};
+
+// Función para mostrar eventos en la interfaz
+let mostrarEventos = (eventos) => {
+    // Esta función se puede implementar para mostrar los eventos en una tabla
+    console.log("Eventos cargados:", eventos);
+};
+
+// Función para limpiar el formulario
+let limpiarFormulario = () => {
+    formulario.reset();
+};
+
+// Función para mostrar mensajes al usuario
+let mostrarMensaje = (mensaje, tipo) => {
+    // Crear elemento de mensaje
+    const mensajeDiv = document.createElement('div');
+    mensajeDiv.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+    mensajeDiv.innerHTML = `
+        ${mensaje}
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    `;
+    
+    // Insertar mensaje al inicio del contenido
+    const content = document.querySelector('.container-fluid');
+    content.insertBefore(mensajeDiv, content.firstChild);
+    
+    // Auto-remover después de 5 segundos
+    setTimeout(() => {
+        if (mensajeDiv.parentNode) {
+            mensajeDiv.remove();
+        }
+    }, 5000);
+};
+
+// Cargar eventos al inicializar la página
+document.addEventListener('DOMContentLoaded', async () => {
+    await dataLoader.loadAllData('eventos');
+    cargarEventos();
+});
