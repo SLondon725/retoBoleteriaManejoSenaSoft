@@ -28,8 +28,15 @@ export class CompraService {
          });
     }
 
-    async registrarCompra(compraData: Partial<Compras>): Promise<Compras>{
-        
+    async obtenerComprasPorFecha(fecha: string): Promise<void>{
+        await this.compraRepository.find({
+            where: {fechaCompra: fecha},
+            relations: ['idEstado2', 'idMetodoPago2', 'idLocalidadDetalle2', 'idUsuario2'],
+            order: { idEstado: 'ASC' }
+         });
+    }
+    
+    async registrarCompra(compraData: Partial<Compras>): Promise<Compras>{     
         
         if(compraData.cantidadBoletas && compraData.cantidadBoletas > 10){
             throw new Error('Solo se permiten maximo 10 boletas por persona');

@@ -7,6 +7,7 @@ const compraController = new CompraController;
 // const validatorJWT = new ValidatorJWT().validateJWT;
 
 router.get("/", compraController.obtenerTodasLasCompras);
+router.get("/filtroFecha/:fecha", compraController.obtenerComprasPorFecha);
 router.post("/", compraController.registrarCompra);
 
 export default router;
