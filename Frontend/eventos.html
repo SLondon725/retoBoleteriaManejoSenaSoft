@@ -124,19 +124,48 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="row">
-                                                            <div class="col-4">
-                                                                <label for="fecha_evento">Fecha evento</label>
+                                                            <div class="col-6">
+                                                                <label for="fecha_inicio_evento">Fecha inicio evento</label>
+                                                                <input id="fecha_inicio_evento" name="fecha_inicio_evento" type="date" class="form-control form-control-user">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label for="fecha_fin_evento">Fecha evento</label>
                                                                 <input id="fecha_evento" name="fecha_evento" type="date" class="form-control form-control-user">
                                                             </div>
-                                                            <div class="col-4">
+                                                        </div>
+                                                        <div class="row mt-4">
+                                                            <div class="col-6">
                                                                 <label for="horaI_evento">Hora Inicio</label>
                                                                 <input id="horaI_evento" name="horaI_evento" type="time" class="form-control form-control-user">
                                                             </div>
-                                                            <div class="col-4">
+                                                            <div class="col-6">
                                                                 <label for="horaF_evento">Hora Fin</label>
                                                                 <input type="time" class="form-control form-control-user" name="horaF_evento" id="horaF_evento">
                                                             </div>
                                                         </div>
+                                                        <!-- "lugarRealizacion": "Auditorio Nacional",
+                                                        "idMunicipio": 3,
+                                                        "idEstadoEvento": 1 -->
+                                                        <div class="row mt-4">
+                                                            <div class="col-6">
+                                                                <label for="lugar_realizacion">Lugar de realización</label>
+                                                                <input id="lugarRealizacion" name="lugarRealizacion" type="text" class="form-control form-control-user">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label for="idMunicipio">Municipio</label>
+                                                                <select name="idMunicipio" id="idMunicipio">
+                                                                    <!-- Aqui se necesitaria el js de los municipios -->
+                                                                </select>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="idEstadoEvento">Estado del evento</label>
+                                                        <select name="idEstadoEvento" id="idEstadoEvento" class="form-control form-control-user">
+                                                            <option value="1">Disponible</option>
+                                                            <option value="2">No disponible</option>
+                                                        </select>
                                                     </div>
                                                     <input type="submit" class="btn btn-primary btn-user" value="Registrar">
                                                 </form>
@@ -149,7 +178,7 @@
                         </div>
                         <!-- Registrar Localidad -->
                         <div class="col-xl-6 col-md-8 mb-10">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-primary shadow py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -159,10 +188,6 @@
                                             <div class="h6 mb-0 font-weight-bold text-gray-800 mt-3">
                                                 <!-- Formulario Localidad -->
                                                 <form>
-                                                    <div class="form-group">
-                                                        <label for="codigo_localidad">Codigo Localidad</label>
-                                                        <input type="text" class="form-control form-control-user" id="codigo_localidad" name="nombre_localidad">
-                                                    </div>
                                                     <div class="form-group">
                                                         <label for="nombre_localidad">Nombre Localidad</label>
                                                         <input type="text" class="form-control form-control-user" id="nombre_localidad" name="nombre_localidad">
