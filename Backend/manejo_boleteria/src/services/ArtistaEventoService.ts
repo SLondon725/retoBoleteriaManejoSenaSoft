@@ -4,7 +4,7 @@ import { ArtistaEventos } from "@/entities/ArtistaEventos";
 import { Repository } from "typeorm";
 import { Eventos } from "@/entities/Eventos";
 
-export class ArtistaService {
+export class ArtistaEventoService {
     private readonly artistaRepository: Repository<Artistas>;
     private readonly artistaEventoRepository: Repository<ArtistaEventos>;
     private readonly eventoRepository: Repository<Eventos>;
@@ -16,31 +16,39 @@ export class ArtistaService {
         this.eventoRepository = AppDataSource.getRepository(Eventos);
     }    
 
-    async crearArtista(artistaEventoData: Partial<ArtistaEventos>): Promise<Artistas> {
+    async crearArtistaEvento(artistaEventoData: Partial<ArtistaEventos>): Promise<ArtistaEventos> {
         
-        //Validar que el artista no este asginado a ningun evento a la misma hora
-        const evento = await this.eventoRepository.findOne({
-            where: { idEvento: artistaEventoData.idEvento}
+        const eventoNuevo = await this.eventoRepository.findOne({
+            where: { idEvento: artistaEventoData.idEvento }
         });
 
-        const eventoHora = await this.eventoRepository.findOne({
-            where: { horaInicio: evento?.horaInicio}
-        });
-
-
-        if (!eventoHora) {
-            throw new Error('El artista ya tiene un evento asignado a esta hora ');
-        }
-        
-        const artistaExistente = await this.artistaRepository.findOne({
-            where: { nombre: artistaEventoData. }
-        });
-        
-        if (artistaExistente) {
-            throw new Error('El nombre del artista ya está en uso');
+        if(!eventoNuevo){
+            throw new Error('El evento especificado no existe');
         }
 
-        const artista = this.artistaRepository.create(artistaData);
-        return await this.artistaRepository.save(artista);
+        // Verificar si hay solapamiento de fechas
+        if(await this.conflictoHorario(artistaEventoData.idArtista!, new Date(eventoNuevo.fechaInicio), new Date(eventoNuevo.fechaFin))){
+            throw new Error('El artista ya tiene un evento en ese rango de fechas');
+        }
+
+        const artista = await this.artistaRepository.findOne({
+            where: { idArtista: artistaEventoData.idArtista }
+        });
+
+        if(!artista){
+            throw new Error('El artista especificado no existe');
+        }
+        const artistaEvento = this.artistaEventoRepository.create(artistaEventoData);
+        return await this.artistaEventoRepository.save(artistaEvento);
+    }
+
+    async conflictoHorario(idArtista: number, fechaInicioNuevo: Date, fechaFinNuevo: Date): Promise<boolean> {
+        const eventosSolapados = await this.artistaEventoRepository.createQueryBuilder('artistaEvento')
+        .where('artistaEvento.idArtista = :idArtista', { idArtista })
+        .andWhere('artistaEvento.fechaInicio < :fechaFinNuevo AND artistaEvento.fechaFin > :fechaInicioNuevo', { fechaInicioNuevo, fechaFinNuevo })
+        .getCount();
+
+        // Si la cuenta es mayor a 0, significa que hay solapamiento
+        return eventosSolapados > 0;
     }
 }
