@@ -34,50 +34,58 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h5 mb-4">Registrate</h1>
                             </div>
                             <form class="user">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
+                                        <label for="nombresUsuario">Nombres</label>
+                                        <input type="text" class="form-control form-control-user" id="nombresUsuario">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
+                                        <label for="apellidosUsuario">Apellidos</label>
+                                        <input type="text" class="form-control form-control-user" id="apellidosUsuario">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0" >
+                                        <label for="tipoDocumento">Tipo de documento</label>
+                                        <select name="tipoDocumento" id="tipoDocumento">
+                                            <option value="">Tipo de documento</option>
+                                            <option value="CC">Cédula de ciudadanía</option>
+                                            <option value="CE">Cédula de extranjería</option>
+                                            <option value="PA">Pasaporte</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="identificacion">Numero de identificación</label>
+                                        <input type="number" class="form-control form-control-user" id="identificacion">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                    <label for="identificacion">Correo electronico</label>
+                                    <input type="email" class="form-control form-control-user" id="emailUsuario" name="emailUsuario">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label for="contrasenaUsuario">Contraseña</label>
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                        id="contrasenaUsuario" placeholder="Password">
                                     </div>
                                     <div class="col-sm-6">
+                                        <label for="contrasenaUsuario">Confirmar Contraseña</label>
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                        id="confirmarContrasenaUsuario">
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Register Account
-                                </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
+                                <input type="submit" class="btn btn-primary btn-user" value="Registrar">
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                <a class="small" href="forgot-password.html">¿Olvidaste tu contraseña?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="login.html">¿Ya tienes una cuenta? Inicia Sesion!</a>
                             </div>
                         </div>
                     </div>
