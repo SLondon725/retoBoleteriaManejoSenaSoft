@@ -49,6 +49,7 @@ export class EventoService {
 
     async obtenerTodosLosEventos(): Promise<Eventos[]> {
         return await this.eventoRepository.find({
+            where: {idEstadoEvento: 1},
             relations: ['idMunicipio2', 'idEstadoEvento2'],
             order: { fechaInicio: 'DESC' }
         }); 
