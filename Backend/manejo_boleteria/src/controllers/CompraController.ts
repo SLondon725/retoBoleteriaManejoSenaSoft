@@ -21,7 +21,9 @@ export class CompraController {
 
     obtenerComprasPorFecha = async (req: Request, res: Response): Promise<void> => {
         try {
-            const eventos = await this.compraService.obtenerComprasPorFecha(req.path);
+            const date = new Date(req.path);
+            const fechaFormateada = date.toISOString().slice(0, 10);
+            const eventos = await this.compraService.obtenerComprasPorFecha(fechaFormateada);
             res.status(200).json(ApiResponse.success("Compras obtenidas exitosamente", eventos));
         } catch (error) {
             console.error("Error al obtener eventos:", error);
