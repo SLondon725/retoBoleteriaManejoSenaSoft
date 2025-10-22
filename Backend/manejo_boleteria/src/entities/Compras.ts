@@ -38,6 +38,9 @@ export class Compras {
   @Column("int", { name: "id_metodo_pago" })
   idMetodoPago!: number;
 
+  @Column("date", { name: "fecha_compra" })
+  fechaCompra!: string;
+
   @ManyToOne(
     () => EstadoTransaccion,
     (estadoTransaccion) => estadoTransaccion.compras,

@@ -29,15 +29,16 @@ export class EventoController {
         }
     };
 
-    obtenerTodosLosDetallesDeEvento = async (req: Request, res: Response): Promise<void> => {
+    obtenerEventosPorFiltro = async (req: Request, res: Response): Promise<void> => {
         try {
-            const eventos = await this.eventoService.obtenerTodosLosEventos();
-            res.status(200).json(ApiResponse.success("Eventos obtenidos exitosamente", eventos));
+            const filtros = req.body;
+            const eventos = await this.eventoService.buscarEventosPorFiltros(filtros);
+            res.status(200).json(ApiResponse.success("Eventos por filtro obtenidos exitosamente", eventos));
         } catch (error) {
             console.error("Error al obtener eventos:", error);
-            res.status(500).json(ApiResponse.error("Error al obtener los eventos", error));
+            res.status(500).json(ApiResponse.error("Error al obtener los eventos por filtro", error));
         }
-    };
+    }
     
     obtenerEventoPorId = async (req: Request, res: Response): Promise<void> => {
         try {

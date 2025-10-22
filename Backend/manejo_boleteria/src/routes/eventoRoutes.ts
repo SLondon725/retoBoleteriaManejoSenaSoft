@@ -9,6 +9,7 @@ const eventoController = new EventoController();
 // Rutas para eventos
 router.get("/", eventoController.obtenerTodosLosEventos);
 router.get("/proximos", eventoController.obtenerEventosProximos);
+router.get("/filtro", eventoController.obtenerEventosPorFiltro);
 router.get("/municipio/:idMunicipio", eventoController.obtenerEventosPorMunicipio);
 router.get("/estado/:idEstadoEvento", eventoController.obtenerEventosPorEstado);
 router.get("/:id", eventoController.obtenerEventoPorId);
