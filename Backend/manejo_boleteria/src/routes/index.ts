@@ -6,6 +6,7 @@ import eventoRoutes from './eventoRoutes';
 import localidadRoutes from './localidadRoutes';
 import localidadDetalleRoutes from './localidadDetalleRoutes';
 import rolesRoutes from './rolesRoutes';
+import artistaEventoRoutes from './artistaEventoRoutes';
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use('/artistas', artistaRoutes);
 router.use('/eventos', eventoRoutes);
 router.use('/localidades', localidadRoutes);
 router.use('/localidades-detalle', localidadDetalleRoutes);
+router.use('/artista-eventos', artistaEventoRoutes);
 
 // Ruta de salud del servidor 
 router.get('/health', (req: Request, res: Response) => {
@@ -40,7 +42,8 @@ router.get('/info', (req: Request, res: Response) => {
             eventos: '/eventos',
             localidades: '/localidades',
             localidadesDetalle: '/localidades-detalle',
-            rolesNuevo: '/roles-nuevo'
+            rolesNuevo: '/roles-nuevo',
+            artistaEventos: '/artista-eventos'
         }
     });
 });

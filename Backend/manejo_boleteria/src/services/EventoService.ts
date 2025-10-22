@@ -47,6 +47,40 @@ export class EventoService {
         return await this.eventoRepository.save(evento);
     }
 
+    async buscarEventosPorFiltros(filtros: {
+        fecha?: string,
+        idMunicipio?: number,
+        idDepartamento?: number,
+    }): Promise<Eventos[]> {
+        const query = this.eventoRepository.createQueryBuilder('eventos');
+    
+        query
+          .leftJoinAndSelect('evento.artistaEventos', 'artistaEvento')
+          .leftJoinAndSelect('artistaEvento.artista', 'artista')
+          .leftJoinAndSelect('evento.localidadDetalles', 'localidad')
+          .leftJoinAndSelect('evento.idMunicipio2', 'municipio')
+          .leftJoinAndSelect('municipio.idDepartamento2', 'departamento'); // Asumiendo que 'Municipio' tiene una relación con 'Departamento'
+    
+        // Aplica los filtros de manera condicional
+        if (filtros.fecha) {
+          query.andWhere('evento.fechaInicio = :fecha', { fecha: filtros.fecha });
+        }
+    
+        if (filtros.idMunicipio) {
+          query.andWhere('evento.id_municipio = :idMunicipio', { idMunicipio: filtros.idMunicipio });
+        }
+    
+        if (filtros.idDepartamento) {
+          query.andWhere('departamento.idDepartamento = :idDepartamento', { idDepartamento: filtros.idDepartamento });
+        }
+        
+        // Agrega la lógica para solo mostrar eventos futuros
+        query.andWhere('evento.fechaFin >= CURDATE()');
+    
+        // Ejecuta y retorna la consulta
+        return await query.getMany();
+      }
+
     async obtenerTodosLosEventos(): Promise<Eventos[]> {
         return await this.eventoRepository.find({
             where: {idEstadoEvento: 1},
