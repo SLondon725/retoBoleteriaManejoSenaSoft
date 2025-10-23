@@ -54,7 +54,7 @@ export class LocalidadDetalleService {
     async obtenerTodosLosDetalles(): Promise<LocalidadDetalle[]> {
         return await this.localidadDetalleRepository.find({
             relations: ['idLocalidad2', 'idEvento2'],
-            order: { valor: 'ASC' }
+            order: { precio: 'ASC' }
         });
     }
 
@@ -132,7 +132,7 @@ export class LocalidadDetalleService {
         return await this.localidadDetalleRepository.find({
             where: { idEvento },
             relations: ['idLocalidad2', 'idEvento2'],
-            order: { valor: 'ASC' }
+            order: { precio: 'ASC' }
         });
     }
 
@@ -140,7 +140,7 @@ export class LocalidadDetalleService {
         return await this.localidadDetalleRepository.find({
             where: { idLocalidad },
             relations: ['idLocalidad2', 'idEvento2'],
-            order: { valor: 'ASC' }
+            order: { precio: 'ASC' }
         });
     }
 
@@ -150,7 +150,7 @@ export class LocalidadDetalleService {
             .leftJoinAndSelect('detalle.idLocalidad2', 'localidad')
             .leftJoinAndSelect('detalle.idEvento2', 'evento')
             .where('detalle.cantidadDisponible > 0')
-            .orderBy('detalle.valor', 'ASC')
+            .orderBy('detalle.precio', 'ASC')
             .getMany();
     }
 

@@ -29,8 +29,8 @@ export class Compras {
   @Column("int", { name: "cantidad_boletas" })
   cantidadBoletas!: number;
 
-  @Column("bigint", { name: "valorTotal" })
-  valorTotal!: string;
+  @Column("decimal", { name: "valorTotal", precision: 10, scale: 2 })
+  valorTotal!: number;
 
   @Column("int", { name: "id_estado" })
   idEstado!: number;
@@ -78,7 +78,7 @@ export class Compras {
     onUpdate: "NO ACTION",
   })
   @JoinColumn([
-    { name: "id_usuario", referencedColumnName: "numIdentificacion" },
+    { name: "id_usuario", referencedColumnName: "num_identificacion" },
   ])
   idUsuario2!: Usuarios;
 }

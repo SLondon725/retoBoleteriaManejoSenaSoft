@@ -36,11 +36,14 @@ export class ArtistaService {
         }
         
         const artistaExistente = await this.artistaRepository.findOne({
-            where: { nombre: artistaData.nombre }
+            where: { 
+                nombres: artistaData.nombres,
+                apellidos: artistaData.apellidos
+            }
         });
         
         if (artistaExistente) {
-            throw new Error('El nombre del artista ya está en uso');
+            throw new Error('Ya existe un artista con estos nombres y apellidos');
         }
 
         const artista = this.artistaRepository.create(artistaData);
@@ -50,7 +53,7 @@ export class ArtistaService {
     async obtenerTodosLosArtistas(): Promise<Artistas[]> {
         return await this.artistaRepository.find({
             relations: ['idGeneroMusical2', 'idCiudadOrigen2'],
-            order: { nombre: 'ASC' }
+            order: { nombres: 'ASC' }
         });
     }
 
@@ -90,13 +93,13 @@ export class ArtistaService {
             }
         }
 
-        if (artistaData.nombre && artistaData.nombre !== artista.nombre) {
+        if (artistaData.nombres && artistaData.nombres !== artista.nombres) {
             const artistaExistente = await this.artistaRepository.findOne({
-                where: { nombre: artistaData.nombre }
+                where: { nombres: artistaData.nombres }
             });
 
             if (artistaExistente) {
-                throw new Error('El nombre del artista ya está en uso');
+                throw new Error('El nombres del artista ya está en uso');
             }
         }
 
@@ -122,7 +125,7 @@ export class ArtistaService {
         return await this.artistaRepository.find({
             where: { idGeneroMusical },
             relations: ['idGeneroMusical2', 'idCiudadOrigen2'],
-            order: { nombre: 'ASC' }
+            order: { nombres: 'ASC' }
         });
     }
 
@@ -130,7 +133,7 @@ export class ArtistaService {
         return await this.artistaRepository.find({
             where: { idCiudadOrigen: idMunicipio },
             relations: ['idGeneroMusical2', 'idCiudadOrigen2'],
-            order: { nombre: 'ASC' }
+            order: { nombres: 'ASC' }
         });
     }
 }

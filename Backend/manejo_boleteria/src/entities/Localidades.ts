@@ -6,7 +6,7 @@ export class Localidades {
   @PrimaryGeneratedColumn({ type: "int", name: "id_localidad" })
   idLocalidad!: number;
 
-  @Column("varchar", { name: "nombre", length: 20 })
+  @Column("varchar", { name: "nombre", length: 40 })
   nombre!: string;
 
   @OneToMany(

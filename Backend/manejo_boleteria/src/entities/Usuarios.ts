@@ -12,20 +12,26 @@ import { Roles } from "./Roles";
 @Index("FK_usuarios_roles", ["idRol"], {})
 @Entity("usuarios", { schema: "manejo_boleteriabd" })
 export class Usuarios {
+  @Column("varchar", { name: "tipo_documento", length: 10 })
+  tipo_documento!: string;
+
   @Column("varchar", { primary: true, name: "num_identificacion", length: 30 })
-  numIdentificacion!: string;
+  num_identificacion!: string;
 
-  @Column("varchar", { name: "nombre", length: 40 })
-  nombre!: string;
+  @Column("varchar", { name: "nombres", length: 40 })
+  nombres!: string;
 
-  @Column("varchar", { name: "apellido", length: 40 })
-  apellido!: string;
+  @Column("varchar", { name: "apellidos", length: 40 })
+  apellidos!: string;
 
-  @Column("varchar", { name: "correo", length: 40 })
+  @Column("varchar", { name: "correo", length: 100, unique: true })
   correo!: string;
 
-  @Column("varchar", { name: "pass", length: 40 })
+  @Column("varchar", { name: "pass", length: 255 })
   pass!: string;
+
+  @Column("varchar", { name: "telefono", length: 15, nullable: true })
+  telefono?: string;
 
   @Column("int", { name: "id_rol" })
   idRol!: number;

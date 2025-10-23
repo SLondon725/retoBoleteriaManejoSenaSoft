@@ -32,7 +32,7 @@ export class UsuarioService {
 
         // Verificar que el número de identificación no esté en uso
         const identificacionExistente = await this.usuarioRepository.findOne({
-            where: {numIdentificacion: usuarioData.numIdentificacion}
+            where: {num_identificacion: usuarioData.num_identificacion}
         });
         
         if (identificacionExistente) {
@@ -46,20 +46,20 @@ export class UsuarioService {
     async obtenerTodosLosUsuarios(): Promise<Usuarios[]> {
         return await this.usuarioRepository.find({
             relations: ['idRol2'],
-            order: {nombre: 'ASC'}
+            order: {nombres: 'ASC'}
         });
     }
 
-    async obtenerUsuarioPorId(numIdentificacion: string): Promise<Usuarios | null>{
+    async obtenerUsuarioPorId(num_identificacion: string): Promise<Usuarios | null>{
         return await this.usuarioRepository.findOne({
-            where: {numIdentificacion},
+            where: {num_identificacion},
             relations: ['idRol2', 'compras']
         });
     }
 
-    async actualizarUsuario(numIdentificacion: string, usuarioData: Partial<Usuarios>): Promise<Usuarios | null> {
+    async actualizarUsuario(num_identificacion: string, usuarioData: Partial<Usuarios>): Promise<Usuarios | null> {
         const usuario = await this.usuarioRepository.findOne({
-            where: {numIdentificacion} });
+            where: {num_identificacion} });
 
         if (!usuario) {
             return null;
@@ -86,25 +86,25 @@ export class UsuarioService {
         }
 
         // No permitir cambiar el número de identificación (es la clave primaria)
-        if (usuarioData.numIdentificacion && usuarioData.numIdentificacion !== numIdentificacion) {
+        if (usuarioData.num_identificacion && usuarioData.num_identificacion !== num_identificacion) {
             throw new Error('No se puede cambiar el número de identificación');
         }
 
-        await this.usuarioRepository.update(numIdentificacion, usuarioData);
-        return await this.obtenerUsuarioPorId(numIdentificacion);
+        await this.usuarioRepository.update(num_identificacion, usuarioData);
+        return await this.obtenerUsuarioPorId(num_identificacion);
     }
 
-    async eliminarUsuario(numIdentificacion: string): Promise<boolean>{
+    async eliminarUsuario(num_identificacion: string): Promise<boolean>{
         // Verificar si hay compras asociadas
         const compras = await AppDataSource.getRepository('compras').count({
-            where: { idUsuario: numIdentificacion }
+            where: { idUsuario: num_identificacion }
         });
 
         if (compras > 0) {
             throw new Error('No se puede eliminar el usuario porque tiene compras asociadas');
         }
 
-        const resultado = await this.usuarioRepository.delete(numIdentificacion);
+        const resultado = await this.usuarioRepository.delete(num_identificacion);
         return resultado.affected !== 0;
     }
 
@@ -112,7 +112,7 @@ export class UsuarioService {
         return await this.usuarioRepository.find({
             where: {idRol},
             relations: ['idRol2'],
-            order: {nombre: 'ASC'}
+            order: {nombres: 'ASC'}
         });
     }
 
@@ -141,17 +141,17 @@ export class UsuarioService {
         });
     }
 
-    async cambiarPassword(numIdentificacion: string, nuevaPassword: string): Promise<Usuarios | null>{
+    async cambiarPassword(num_identificacion: string, nuevaPassword: string): Promise<Usuarios | null>{
         const usuario = await this.usuarioRepository.findOne({
-            where: {numIdentificacion}
+            where: {num_identificacion}
         });
 
         if (!usuario) {
             return null;
         }
 
-        await this.usuarioRepository.update(numIdentificacion, { pass: nuevaPassword });
-        return await this.obtenerUsuarioPorId(numIdentificacion);
+        await this.usuarioRepository.update(num_identificacion, { pass: nuevaPassword });
+        return await this.obtenerUsuarioPorId(num_identificacion);
     }
 
 }

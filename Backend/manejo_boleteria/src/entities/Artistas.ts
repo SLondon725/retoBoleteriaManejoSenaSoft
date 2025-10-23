@@ -18,8 +18,11 @@ export class Artistas {
   @PrimaryGeneratedColumn({ type: "int", name: "id_artista" })
   idArtista!: number;
 
-  @Column("varchar", { name: "nombre", length: 40 })
-  nombre!: string;
+  @Column("varchar", { name: "nombres", length: 40 })
+  nombres!: string;
+
+  @Column("varchar", { name: "apellidos", length: 40 })
+  apellidos!: string;
 
   @Column("int", { name: "id_genero_musical" })
   idGeneroMusical!: number;

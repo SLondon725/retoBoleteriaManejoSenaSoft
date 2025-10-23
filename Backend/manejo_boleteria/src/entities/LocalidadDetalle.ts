@@ -18,8 +18,8 @@ export class LocalidadDetalle {
   @PrimaryGeneratedColumn({ type: "int", name: "id_localidad_detalle" })
   idLocalidadDetalle!: number;
 
-  @Column("bigint", { name: "valor" })
-  valor!: string;
+  @Column("decimal", { name: "precio", precision: 10, scale: 2 })
+  precio!: number;
 
   @Column("int", { name: "cantidad_disponible" })
   cantidadDisponible!: number;

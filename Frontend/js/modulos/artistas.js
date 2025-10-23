@@ -1,7 +1,7 @@
 // Variables del DOM
 let formularioArtista = document.getElementById("formulario_artista");
-let nombreArtista = document.getElementById("nombre_artista");
-let descripcionArtista = document.getElementById("descripcion_artista");
+let nombresArtista = document.getElementById("nombres_artista");
+let apellidosArtista = document.getElementById("apellidos_artista");
 let generoMusicalSelect = document.getElementById("genero_musical");
 
 // Event listener para el formulario de artista
@@ -14,24 +14,24 @@ if (formularioArtista) {
 
 // Función para registrar artista usando la API
 let registrarArtista = async () => {
-    const nombre = nombreArtista ? nombreArtista.value.trim() : '';
-    const descripcion = descripcionArtista ? descripcionArtista.value.trim() : '';
+    const nombres = nombresArtista ? nombresArtista.value.trim() : '';
+    const apellidos = apellidosArtista ? apellidosArtista.value.trim() : '';
     const idGeneroMusical = generoMusicalSelect ? parseInt(generoMusicalSelect.value) : null;
 
     // Validación de campos
-    if (!nombre || !descripcion || !idGeneroMusical) {
+    if (!nombres || !apellidos || !idGeneroMusical) {
         mostrarMensaje("Hay campos vacíos, por favor ingrese todos los datos solicitados", "error");
         return;
     }
 
     try {
         const artista = {
-            nombre,
-            descripcion,
+            nombres,
+            apellidos,
             idGeneroMusical
         };
 
-        const response = await api.crearArtista(artista);
+        const response = await apiClient.createArtista(artista);
         
         if (response.success) {
             mostrarMensaje(`Artista registrado exitosamente! ID: ${response.data.id}`, "success");
