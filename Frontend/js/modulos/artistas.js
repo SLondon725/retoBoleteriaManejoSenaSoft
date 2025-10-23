@@ -31,7 +31,7 @@ let registrarArtista = async () => {
             idGeneroMusical
         };
 
-        const response = await apiClient.createArtista(artista);
+        const response = await api.crearArtista(artista);
         
         if (response.success) {
             mostrarMensaje(`Artista registrado exitosamente! ID: ${response.data.id}`, "success");
@@ -49,7 +49,7 @@ let registrarArtista = async () => {
 // Función para cargar y mostrar artistas
 let cargarArtistas = async () => {
     try {
-        const response = await apiClient.getArtistas();
+        const response = await api.obtenerArtistas();
         if (response.success) {
             mostrarArtistas(response.data);
         }
@@ -74,28 +74,8 @@ let limpiarFormularioArtista = () => {
 
 // Función para mostrar mensajes al usuario
 let mostrarMensaje = (mensaje, tipo) => {
-    // Crear elemento de mensaje
-    const mensajeDiv = document.createElement('div');
-    mensajeDiv.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
-    mensajeDiv.innerHTML = `
-        ${mensaje}
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-    `;
-    
-    // Insertar mensaje al inicio del contenido
-    const content = document.querySelector('.container-fluid');
-    if (content) {
-        content.insertBefore(mensajeDiv, content.firstChild);
-        
-        // Auto-remover después de 5 segundos
-        setTimeout(() => {
-            if (mensajeDiv.parentNode) {
-                mensajeDiv.remove();
-            }
-        }, 5000);
-    }
+    // Usar la función de notificación de apiUtils
+    apiUtils.showNotification(mensaje, tipo);
 };
 
 // Cargar artistas al inicializar la página

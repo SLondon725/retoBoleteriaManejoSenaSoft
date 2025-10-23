@@ -9,19 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>Dashboard - Sistema de Boletería</title>
 
-    <!-- Custom fonts for this template -->
+    <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -30,7 +27,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-         <!-- Sidebar -->
+        <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -38,7 +35,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Compra tu boleta</div>
+                <div class="sidebar-brand-text mx-3">Sistema de Boletería</div>
             </a>
 
             <!-- Divider -->
@@ -46,39 +43,38 @@
 
             <!-- Cabecera del navegador -->
             <div class="sidebar-heading">
-                Modulos
+                Módulos
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" href="eventos.html">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-calendar"></i>
                     <span>Eventos y Localidades</span>
                 </a>
-                
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="boleteria.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Boleteria</span>
+                    <i class="fas fa-fw fa-ticket-alt"></i>
+                    <span>Boletería</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="artistas.html">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-music"></i>
                     <span>Artistas</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="compra.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Compra tu boleta</span>
+                    <i class="fas fa-fw fa-shopping-cart"></i>
+                    <span>Compra tu Boleta</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="historial.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Historial de compra</span>
+                    <i class="fas fa-fw fa-history"></i>
+                    <span>Historial de Compras</span>
                 </a>
             </li>
 
@@ -109,20 +105,20 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <!-- Aqui iria el nombre de la persona -->
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUsuario">Usuario</span>
+                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="configuracion.html">
+                                <a class="dropdown-item" href="#" onclick="verPerfil()">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" onclick="cerrarSesion()">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cerrar Sesion
+                                    Cerrar Sesión
                                 </a>
                             </div>
                         </li>
@@ -134,40 +130,150 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Eventos colombianos</h1>
-                    <p class="mb-4">Bienvenidos a la pagina de eventos del folclor colombiano donde te encontraras con cultura tipica de tu tierra colombiana y mucho mas.</p>
-                    <div class="row mb-4">
-                        <div class="col-3">
-                            <!-- Filtro fecha -->
-                            <label for="filtrar_fecha">Filtrar por fecha</label>
-                            <input type="date" id="filtrar_fecha" class="form-control">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <a href="compra.html" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <i class="fas fa-shopping-cart fa-sm text-white-50"></i> Comprar Boletas
+                        </a>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Eventos Próximos -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Eventos Próximos</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Acciones:</div>
+                                            <a class="dropdown-item" href="eventos.html">Ver Todos</a>
+                                            <a class="dropdown-item" href="compra.html">Comprar Boletas</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div id="eventosProximos">
+                                        <div class="text-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="sr-only">Cargando...</span>
+                                            </div>
+                                            <p class="mt-2">Cargando eventos...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-3">
-                            <!-- Filtro ciudad -->
-                            <label for="filtrar_ciudad">Filtrar por municipio</label>
-                            <select id="filtrar_ciudad" class="form-control">
-                                <option value="">Seleccione una municipio</option>
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <!-- Boton filtrar -->
-                            <label>&nbsp;</label>
-                            <button id="boton_filtrar" class="btn btn-primary btn-block">Filtrar</button>
+
+                        <!-- Estadísticas del Usuario -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Mis Estadísticas</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <div class="h3 font-weight-bold text-primary" id="totalComprasUsuario">0</div>
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Compras</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <div class="h3 font-weight-bold text-success" id="totalGastadoUsuario">$0</div>
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Gastado</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <div class="h3 font-weight-bold text-info" id="totalBoletasUsuario">0</div>
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Boletas</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <div class="h3 font-weight-bold text-warning" id="eventosAsistidos">0</div>
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Eventos</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Eventos colombianos</h6>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Acciones Rápidas -->
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Acciones Rápidas</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <a href="compra.html" class="btn btn-primary btn-block">
+                                                <i class="fas fa-shopping-cart"></i> Comprar Boletas
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <a href="historial.html" class="btn btn-info btn-block">
+                                                <i class="fas fa-history"></i> Ver Historial
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <a href="eventos.html" class="btn btn-success btn-block">
+                                                <i class="fas fa-calendar"></i> Ver Eventos
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <a href="artistas.html" class="btn btn-warning btn-block">
+                                                <i class="fas fa-music"></i> Ver Artistas
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                           
+
+                        <!-- Últimas Compras -->
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Últimas Compras</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="ultimasCompras">
+                                        <div class="text-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="sr-only">Cargando...</span>
+                                            </div>
+                                            <p class="mt-2">Cargando compras...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -175,7 +281,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; Sistema de Boletería 2024</span>
                     </div>
                 </div>
             </footer>
@@ -187,30 +293,6 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -221,13 +303,233 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <!-- API Configuration -->
+    <script src="js/api-config.js"></script>
+    <script src="js/api-routes.js"></script>
+    <script src="js/api-utils.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!apiUtils.isAuthenticated()) {
+                apiUtils.showNotification('Debes iniciar sesión para acceder al dashboard', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+            // Cargar datos del usuario
+            const userData = apiUtils.getStorage('userData');
+            if (userData) {
+                document.getElementById('nombreUsuario').textContent = userData.nombre + ' ' + userData.apellido;
+            }
+
+            // Cargar datos del dashboard
+            cargarEventosProximos();
+            cargarEstadisticasUsuario();
+            cargarUltimasCompras();
+        });
+
+        // Cargar eventos próximos
+        async function cargarEventosProximos() {
+            try {
+                const eventos = await api.obtenerEventosProximos();
+                
+                if (eventos.success && eventos.data) {
+                    mostrarEventosProximos(eventos.data);
+                } else {
+                    mostrarEventosProximos([]);
+                }
+            } catch (error) {
+                console.error('Error al cargar eventos próximos:', error);
+                mostrarEventosProximos([]);
+            }
+        }
+
+        // Mostrar eventos próximos
+        function mostrarEventosProximos(eventos) {
+            const container = document.getElementById('eventosProximos');
+            
+            if (eventos.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                        <p>No hay eventos próximos disponibles</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            eventos.slice(0, 5).forEach(evento => {
+                html += `
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-primary">
+                                <i class="fas fa-calendar text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="small text-gray-500">${apiUtils.formatDateForDisplay(evento.fechaInicio)}</div>
+                            <div class="font-weight-bold">${evento.nombre}</div>
+                            <div class="small text-muted">${evento.lugarRealizacion || 'Lugar por definir'}</div>
+                        </div>
+                        <div>
+                            <a href="compra.html" class="btn btn-sm btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Cargar estadísticas del usuario
+        async function cargarEstadisticasUsuario() {
+            try {
+                const userData = apiUtils.getStorage('userData');
+                if (!userData) return;
+
+                // Obtener todas las compras
+                const compras = await api.obtenerCompras();
+                
+                if (compras.success && compras.data) {
+                    // Filtrar compras del usuario actual
+                    const comprasUsuario = compras.data.filter(compra => 
+                        compra.idUsuario === userData.numIdentificacion
+                    );
+                    
+                    calcularEstadisticas(comprasUsuario);
+                } else {
+                    calcularEstadisticas([]);
+                }
+            } catch (error) {
+                console.error('Error al cargar estadísticas:', error);
+                calcularEstadisticas([]);
+            }
+        }
+
+        // Calcular estadísticas
+        function calcularEstadisticas(compras) {
+            const totalCompras = compras.length;
+            const totalGastado = compras.reduce((sum, compra) => sum + (compra.precioTotal || 0), 0);
+            const totalBoletas = compras.reduce((sum, compra) => sum + (compra.cantidad || 0), 0);
+            const eventosUnicos = new Set(compras.map(compra => compra.evento?.id)).size;
+
+            document.getElementById('totalComprasUsuario').textContent = totalCompras;
+            document.getElementById('totalGastadoUsuario').textContent = apiUtils.formatCurrency(totalGastado);
+            document.getElementById('totalBoletasUsuario').textContent = totalBoletas;
+            document.getElementById('eventosAsistidos').textContent = eventosUnicos;
+        }
+
+        // Cargar últimas compras
+        async function cargarUltimasCompras() {
+            try {
+                const userData = apiUtils.getStorage('userData');
+                if (!userData) return;
+
+                // Obtener todas las compras
+                const compras = await api.obtenerCompras();
+                
+                if (compras.success && compras.data) {
+                    // Filtrar compras del usuario actual y ordenar por fecha
+                    const comprasUsuario = compras.data
+                        .filter(compra => compra.idUsuario === userData.numIdentificacion)
+                        .sort((a, b) => new Date(b.fechaCompra) - new Date(a.fechaCompra))
+                        .slice(0, 5);
+                    
+                    mostrarUltimasCompras(comprasUsuario);
+                } else {
+                    mostrarUltimasCompras([]);
+                }
+            } catch (error) {
+                console.error('Error al cargar últimas compras:', error);
+                mostrarUltimasCompras([]);
+            }
+        }
+
+        // Mostrar últimas compras
+        function mostrarUltimasCompras(compras) {
+            const container = document.getElementById('ultimasCompras');
+            
+            if (compras.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                        <p>No tienes compras registradas</p>
+                        <a href="compra.html" class="btn btn-primary btn-sm">Comprar Boletas</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            compras.forEach(compra => {
+                html += `
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-success">
+                                <i class="fas fa-ticket-alt text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="font-weight-bold">${compra.evento?.nombre || 'Evento'}</div>
+                            <div class="small text-muted">${compra.cantidad} boleta(s) - ${apiUtils.formatCurrency(compra.precioTotal)}</div>
+                            <div class="small text-gray-500">${compra.fechaCompra ? apiUtils.formatDateForDisplay(compra.fechaCompra) : 'N/A'}</div>
+                        </div>
+                        <div>
+                            <span class="badge badge-${getEstadoBadgeClass(compra.idEstadoTransaccion)}">
+                                ${getEstadoTexto(compra.idEstadoTransaccion)}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Funciones auxiliares
+        function getEstadoTexto(idEstado) {
+            const estados = {
+                1: 'Pendiente',
+                2: 'Confirmado',
+                3: 'Cancelado'
+            };
+            return estados[idEstado] || 'Desconocido';
+        }
+
+        function getEstadoBadgeClass(idEstado) {
+            const clases = {
+                1: 'warning',
+                2: 'success',
+                3: 'danger'
+            };
+            return clases[idEstado] || 'secondary';
+        }
+
+        // Ver perfil del usuario
+        function verPerfil() {
+            const userData = apiUtils.getStorage('userData');
+            if (userData) {
+                const perfil = `
+                    <strong>Información del Perfil:</strong><br>
+                    <strong>Nombre:</strong> ${userData.nombre} ${userData.apellido}<br>
+                    <strong>Correo:</strong> ${userData.correo}<br>
+                    <strong>Teléfono:</strong> ${userData.telefono || 'No registrado'}<br>
+                    <strong>ID:</strong> ${userData.numIdentificacion}
+                `;
+                apiUtils.showNotification(perfil, 'info');
+            }
+        }
+
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            apiUtils.logout();
+            window.location.href = 'login.html';
+        }
+    </script>
 
 </body>
 

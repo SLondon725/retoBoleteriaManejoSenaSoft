@@ -108,6 +108,97 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <!-- API Configuration -->
+    <script src="js/api-config.js"></script>
+    <script src="js/api-routes.js"></script>
+    <script src="js/api-utils.js"></script>
+
+    <script>
+        // Manejo del formulario de registro
+        document.getElementById('formulario_crear_cuenta').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const nombres = document.getElementById('nombresUsuario').value.trim();
+            const apellidos = document.getElementById('apellidosUsuario').value.trim();
+            const tipoDocumento = document.getElementById('tipoDocumento').value;
+            const identificacion = document.getElementById('identificacion').value.trim();
+            const email = document.getElementById('emailUsuario').value.trim();
+            const password = document.getElementById('contrasenaUsuario').value;
+            const confirmarPassword = document.getElementById('confirmarContrasenaUsuario').value;
+            const telefono = document.getElementById('telefonoUsuario').value.trim();
+            
+            // Validaciones
+            if (!nombres || !apellidos || !tipoDocumento || !identificacion || !email || !password || !confirmarPassword) {
+                apiUtils.showNotification('Por favor complete todos los campos obligatorios', 'error');
+                return;
+            }
+            
+            if (password !== confirmarPassword) {
+                apiUtils.showNotification('Las contraseñas no coinciden', 'error');
+                return;
+            }
+            
+            if (!apiUtils.isValidEmail(email)) {
+                apiUtils.showNotification('Por favor ingrese un email válido', 'error');
+                return;
+            }
+            
+            if (!apiUtils.isValidId(identificacion)) {
+                apiUtils.showNotification('Por favor ingrese un número de identificación válido', 'error');
+                return;
+            }
+            
+            if (telefono && !apiUtils.isValidPhone(telefono)) {
+                apiUtils.showNotification('Por favor ingrese un teléfono válido (10 dígitos)', 'error');
+                return;
+            }
+            
+            try {
+                apiUtils.showLoading(true, 'Registrando usuario...');
+                
+                const usuario = {
+                    numIdentificacion: identificacion,
+                    nombre: nombres,
+                    apellido: apellidos,
+                    correo: email,
+                    telefono: telefono || null,
+                    idRol: 2, // Rol de usuario por defecto
+                    password: password
+                };
+                
+                const resultado = await api.crearUsuario(usuario);
+                
+                if (resultado.success) {
+                    apiUtils.showNotification('Usuario registrado exitosamente', 'success');
+                    
+                    // Limpiar formulario
+                    this.reset();
+                    
+                    // Redirigir al login después de un momento
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    apiUtils.showNotification(resultado.message || 'Error al registrar usuario', 'error');
+                }
+            } catch (error) {
+                console.error('Error en registro:', error);
+                apiUtils.showNotification('Error al registrar usuario: ' + error.message, 'error');
+            } finally {
+                apiUtils.showLoading(false);
+            }
+        });
+        
+        // Verificar si ya está autenticado
+        document.addEventListener('DOMContentLoaded', function() {
+            if (apiUtils.isAuthenticated()) {
+                apiUtils.showNotification('Ya tienes una sesión activa', 'info');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+        });
+    </script>
 
 </body>
 
