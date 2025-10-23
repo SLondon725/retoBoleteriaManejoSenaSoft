@@ -16,6 +16,12 @@ export class ArtistaEventoService {
         this.eventoRepository = AppDataSource.getRepository(Eventos);
     }    
 
+    async obtenerArtistaEventos(): Promise<ArtistaEventos[]> {
+        return await this.artistaEventoRepository.find({
+            relations: ['idArtista2', 'idEvento2']
+        });
+    }
+
     async crearArtistaEvento(artistaEventoData: Partial<ArtistaEventos>): Promise<ArtistaEventos> {
         
         const eventoNuevo = await this.eventoRepository.findOne({
