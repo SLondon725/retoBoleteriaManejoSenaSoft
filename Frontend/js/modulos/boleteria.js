@@ -49,7 +49,7 @@ let registrarLocalidad = async () => {
             descripcion: descripcionLocalidad || ''
         };
 
-        const response = await apiClient.createLocalidad(localidad);
+        const response = await api.crearLocalidad(localidad);
         
         if (response.success) {
             mostrarMensaje(`Localidad registrada exitosamente! ID: ${response.data.id}`, "success");
@@ -85,7 +85,7 @@ let registrarLocalidadDetalle = async () => {
             cantidadDisponible: parseInt(cantidadDisponible)
         };
 
-        const response = await apiClient.createLocalidadDetalle(localidadDetalle);
+        const response = await api.crearLocalidadDetalle(localidadDetalle);
         
         if (response.success) {
             mostrarMensaje(`Localidad detalle registrada exitosamente! ID: ${response.data.id}`, "success");
@@ -103,7 +103,7 @@ let registrarLocalidadDetalle = async () => {
 // Función para cargar y mostrar localidades
 let cargarLocalidades = async () => {
     try {
-        const response = await apiClient.getLocalidades();
+        const response = await api.obtenerLocalidades();
         if (response.success) {
             mostrarLocalidades(response.data);
         }
@@ -116,7 +116,7 @@ let cargarLocalidades = async () => {
 // Función para cargar y mostrar localidades detalle
 let cargarLocalidadesDetalle = async () => {
     try {
-        const response = await apiClient.getLocalidadesDetalle();
+        const response = await api.obtenerLocalidadesDetalle();
         if (response.success) {
             mostrarLocalidadesDetalle(response.data);
         }
@@ -152,28 +152,8 @@ let limpiarFormularioLocalidadDetalle = () => {
 
 // Función para mostrar mensajes al usuario
 let mostrarMensaje = (mensaje, tipo) => {
-    // Crear elemento de mensaje
-    const mensajeDiv = document.createElement('div');
-    mensajeDiv.className = `alert alert-${tipo === 'success' ? 'success' : tipo === 'info' ? 'info' : 'danger'} alert-dismissible fade show`;
-    mensajeDiv.innerHTML = `
-        ${mensaje}
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-    `;
-    
-    // Insertar mensaje al inicio del contenido
-    const content = document.querySelector('.container-fluid');
-    if (content) {
-        content.insertBefore(mensajeDiv, content.firstChild);
-        
-        // Auto-remover después de 5 segundos
-        setTimeout(() => {
-            if (mensajeDiv.parentNode) {
-                mensajeDiv.remove();
-            }
-        }, 5000);
-    }
+    // Usar la función de notificación de apiUtils
+    apiUtils.showNotification(mensaje, tipo);
 };
 
 // Cargar datos al inicializar la página

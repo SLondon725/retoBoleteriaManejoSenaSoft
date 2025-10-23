@@ -47,14 +47,14 @@
                                     <form class="form-user" id="formulario_login">
                                         <div class="form-group">
                                             <label for="identificacion">Correo electronico</label>
-                                            <input type="email" class="form-control" id="emailUsuario" name="emailUsuario">
+                                            <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
                                         </div>
                                         
                                         <div class="form-group">
                                             <label for="contrasenaUsuario">Contraseña</label>
-                                            <input type="password" class="form-control" id="contrasenaUsuario">
+                                            <input type="password" class="form-control" id="contrasenaUsuario" required>
                                         </div>
-                                        <input type="submit" class="btn btn-primary" value="Registrar">
+                                        <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
                                         
                                     </form>
                                     <hr>
@@ -82,6 +82,69 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <!-- API Configuration -->
+    <script src="js/api-config.js"></script>
+    <script src="js/api-routes.js"></script>
+    <script src="js/api-utils.js"></script>
+
+    <script>
+        // Manejo del formulario de login
+        document.getElementById('formulario_login').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailUsuario').value;
+            const password = document.getElementById('contrasenaUsuario').value;
+            
+            if (!email || !password) {
+                apiUtils.showNotification('Por favor complete todos los campos', 'error');
+                return;
+            }
+            
+            try {
+                apiUtils.showLoading(true, 'Iniciando sesión...');
+                
+                // Buscar usuario por correo primero
+                const usuario = await api.obtenerUsuarioPorCorreo(email);
+                
+                if (usuario.success && usuario.data) {
+                    // Intentar login con el ID del usuario
+                    const loginResult = await api.login(usuario.data.numIdentificacion, password);
+                    
+                    if (loginResult.success) {
+                        // Guardar token y datos del usuario
+                        apiUtils.setStorage('authToken', loginResult.data.token);
+                        apiUtils.setStorage('userData', usuario.data);
+                        
+                        apiUtils.showNotification('Sesión iniciada exitosamente', 'success');
+                        
+                        // Redirigir al dashboard o página principal
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1500);
+                    } else {
+                        apiUtils.showNotification('Credenciales incorrectas', 'error');
+                    }
+                } else {
+                    apiUtils.showNotification('Usuario no encontrado', 'error');
+                }
+            } catch (error) {
+                console.error('Error en login:', error);
+                apiUtils.showNotification('Error al iniciar sesión: ' + error.message, 'error');
+            } finally {
+                apiUtils.showLoading(false);
+            }
+        });
+        
+        // Verificar si ya está autenticado
+        document.addEventListener('DOMContentLoaded', function() {
+            if (apiUtils.isAuthenticated()) {
+                apiUtils.showNotification('Ya tienes una sesión activa', 'info');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+        });
+    </script>
 
 </body>
 

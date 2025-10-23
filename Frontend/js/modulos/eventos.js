@@ -53,7 +53,7 @@ let registrarEvento = async () => {
             idEstadoEvento
         };
 
-        const response = await apiClient.createEvento(evento);
+        const response = await api.crearEvento(evento);
         
         if (response.success) {
             mostrarMensaje(`Evento registrado exitosamente! ID: ${response.data.id}`, "success");
@@ -71,7 +71,7 @@ let registrarEvento = async () => {
 // Función para cargar y mostrar eventos
 let cargarEventos = async () => {
     try {
-        const response = await apiClient.getEventos();
+        const response = await api.obtenerEventos();
         if (response.success) {
             mostrarEventos(response.data);
         }
@@ -94,26 +94,8 @@ let limpiarFormulario = () => {
 
 // Función para mostrar mensajes al usuario
 let mostrarMensaje = (mensaje, tipo) => {
-    // Crear elemento de mensaje
-    const mensajeDiv = document.createElement('div');
-    mensajeDiv.className = `alert alert-${tipo === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
-    mensajeDiv.innerHTML = `
-        ${mensaje}
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-    `;
-    
-    // Insertar mensaje al inicio del contenido
-    const content = document.querySelector('.container-fluid');
-    content.insertBefore(mensajeDiv, content.firstChild);
-    
-    // Auto-remover después de 5 segundos
-    setTimeout(() => {
-        if (mensajeDiv.parentNode) {
-            mensajeDiv.remove();
-        }
-    }, 5000);
+    // Usar la función de notificación de apiUtils
+    apiUtils.showNotification(mensaje, tipo);
 };
 
 // Cargar eventos al inicializar la página

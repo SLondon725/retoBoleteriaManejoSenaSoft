@@ -1,12 +1,6 @@
-# Instrucciones para Conectar Backend con Frontend
-
-## Configuración Completada
-
-He configurado completamente la conexión entre el backend y frontend de tu sistema de manejo de boletería. Aquí están los cambios realizados:
-
 ### Backend (Node.js + TypeScript)
 
-1. **Configuración de CORS mejorada** en `Backend/manejo_boleteria/src/index.ts`:
+1. **Configuración de CORS** en `Backend/manejo_boleteria/src/index.ts`:
    - Permite conexiones desde localhost y archivos locales
    - Configurado para métodos HTTP necesarios
    - Headers apropiados para autenticación

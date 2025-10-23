@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Historial de compra</title>
+    <title>Historial de Compras</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -107,7 +107,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <!-- Aqui iria el nombre de la persona -->
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUsuario">Usuario</span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -117,7 +117,7 @@
                                     Perfil
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" onclick="cerrarSesion()">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Cerrar Sesion
                                 </a>
@@ -132,66 +132,150 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Historial de compra</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Historial de Compras</h1>
                     </div>
 
-                    <div class="row">
-                        <div class="col-4 mb-4">
-                            <!-- Topbar Search -->
-                            <label for="fecha_compra">Filtrar por evento</label><br>
-                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" id="formulario_buscar_compra_evento">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small" name="buscar" id="buscar" placeholder="Buscar evento"
-                                        aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-2 mb-4">
-                            <label for="fecha_compra">Filtrar por fecha de compra</label>
-                            <input id="fecha_compra" name="fecha_compra" type="date" class="form-control form-control-user">
-                        </div>
-                        
-                        <div class="col-12"></div>
-                        
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-lg-6">
-
-                            <!-- Collapsable Card Example -->
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Accordion -->
-                                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                    <h6 class="m-0 font-weight-bold text-primary">titulo del evento comprado</h6>
-
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse show" id="collapseCardExample">
-                                    <div class="card-body">
-                                        <p>nombre de evento</p>
-                                        <p>localidad seleccionada</p>
-                                        <p>Cantidad de boletas adquiridas</p>
-                                        <p>valor pagado</p>
-                                        <p>fecha y hora completa de la compra</p>
-                                        <p>estado de la transaciion (exitosa, cancelada, pendiente)</p>
+                    <!-- Filtros -->
+                    <div class="row mb-4">
+                        <div class="col-xl-12">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="fecha_filtro">Filtrar por fecha:</label>
+                                            <input type="date" class="form-control" id="fecha_filtro">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="estado_filtro">Filtrar por estado:</label>
+                                            <select class="form-control" id="estado_filtro">
+                                                <option value="">Todos los estados</option>
+                                                <option value="1">Pendiente</option>
+                                                <option value="2">Confirmado</option>
+                                                <option value="3">Cancelado</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>&nbsp;</label>
+                                            <div>
+                                                <button class="btn btn-primary" onclick="aplicarFiltros()">
+                                                    <i class="fas fa-search"></i> Filtrar
+                                                </button>
+                                                <button class="btn btn-secondary" onclick="limpiarFiltros()">
+                                                    <i class="fas fa-times"></i> Limpiar
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
 
+                    <!-- Tabla de compras -->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Mis Compras</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="tablaCompras" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID Compra</th>
+                                                    <th>Evento</th>
+                                                    <th>Localidad</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio Total</th>
+                                                    <th>Fecha Compra</th>
+                                                    <th>Estado</th>
+                                                    <th>Método Pago</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="cuerpoTabla">
+                                                <!-- Los datos se cargarán dinámicamente -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resumen -->
+                    <div class="row mt-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Compras</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalCompras">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Total Gastado</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalGastado">$0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Boletas Compradas</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalBoletas">0</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Última Compra</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="ultimaCompra">-</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -211,30 +295,6 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -245,6 +305,237 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <!-- API Configuration -->
+    <script src="js/api-config.js"></script>
+    <script src="js/api-routes.js"></script>
+    <script src="js/api-utils.js"></script>
+
+    <script>
+        let comprasData = [];
+
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!apiUtils.isAuthenticated()) {
+                apiUtils.showNotification('Debes iniciar sesión para ver tu historial', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            // Cargar datos del usuario
+            const userData = apiUtils.getStorage('userData');
+            if (userData) {
+                document.getElementById('nombreUsuario').textContent = userData.nombre + ' ' + userData.apellido;
+            }
+
+            cargarCompras();
+        });
+
+        // Cargar compras del usuario
+        async function cargarCompras() {
+            try {
+                apiUtils.showLoading(true, 'Cargando historial de compras...');
+                
+                const userData = apiUtils.getStorage('userData');
+                if (!userData) {
+                    apiUtils.showNotification('Error: No se encontraron datos del usuario', 'error');
+                    return;
+                }
+
+                // Obtener todas las compras
+                const compras = await api.obtenerCompras();
+                
+                if (compras.success && compras.data) {
+                    // Filtrar compras del usuario actual
+                    comprasData = compras.data.filter(compra => 
+                        compra.idUsuario === userData.numIdentificacion
+                    );
+                    
+                    mostrarCompras(comprasData);
+                    calcularResumen(comprasData);
+                } else {
+                    mostrarCompras([]);
+                    calcularResumen([]);
+                }
+            } catch (error) {
+                console.error('Error al cargar compras:', error);
+                apiUtils.showNotification('Error al cargar el historial de compras', 'error');
+                mostrarCompras([]);
+                calcularResumen([]);
+            } finally {
+                apiUtils.showLoading(false);
+            }
+        }
+
+        // Mostrar compras en la tabla
+        function mostrarCompras(compras) {
+            const tbody = document.getElementById('cuerpoTabla');
+            tbody.innerHTML = '';
+
+            if (compras.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center">No se encontraron compras</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            compras.forEach(compra => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${compra.id || 'N/A'}</td>
+                    <td>${compra.evento?.nombre || 'N/A'}</td>
+                    <td>${compra.localidadDetalle?.nombre || 'N/A'}</td>
+                    <td>${compra.cantidad || 0}</td>
+                    <td>${apiUtils.formatCurrency(compra.precioTotal || 0)}</td>
+                    <td>${compra.fechaCompra ? apiUtils.formatDateForDisplay(compra.fechaCompra) : 'N/A'}</td>
+                    <td>
+                        <span class="badge badge-${getEstadoBadgeClass(compra.idEstadoTransaccion)}">
+                            ${getEstadoTexto(compra.idEstadoTransaccion)}
+                        </span>
+                    </td>
+                    <td>${getMetodoPagoTexto(compra.idMetodoPago)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="verDetalleCompra(${compra.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${compra.idEstadoTransaccion === 1 ? 
+                            `<button class="btn btn-sm btn-warning" onclick="cancelarCompra(${compra.id})">
+                                <i class="fas fa-times"></i>
+                            </button>` : ''
+                        }
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Calcular resumen de compras
+        function calcularResumen(compras) {
+            const totalCompras = compras.length;
+            const totalGastado = compras.reduce((sum, compra) => sum + (compra.precioTotal || 0), 0);
+            const totalBoletas = compras.reduce((sum, compra) => sum + (compra.cantidad || 0), 0);
+            
+            // Encontrar la última compra
+            const ultimaCompra = compras.length > 0 ? 
+                compras.sort((a, b) => new Date(b.fechaCompra) - new Date(a.fechaCompra))[0] : null;
+
+            document.getElementById('totalCompras').textContent = totalCompras;
+            document.getElementById('totalGastado').textContent = apiUtils.formatCurrency(totalGastado);
+            document.getElementById('totalBoletas').textContent = totalBoletas;
+            document.getElementById('ultimaCompra').textContent = ultimaCompra ? 
+                apiUtils.formatDateForDisplay(ultimaCompra.fechaCompra) : '-';
+        }
+
+        // Aplicar filtros
+        function aplicarFiltros() {
+            const fechaFiltro = document.getElementById('fecha_filtro').value;
+            const estadoFiltro = document.getElementById('estado_filtro').value;
+
+            let comprasFiltradas = [...comprasData];
+
+            if (fechaFiltro) {
+                comprasFiltradas = comprasFiltradas.filter(compra => {
+                    const fechaCompra = new Date(compra.fechaCompra);
+                    const fechaFiltroDate = new Date(fechaFiltro);
+                    return fechaCompra.toDateString() === fechaFiltroDate.toDateString();
+                });
+            }
+
+            if (estadoFiltro) {
+                comprasFiltradas = comprasFiltradas.filter(compra => 
+                    compra.idEstadoTransaccion == estadoFiltro
+                );
+            }
+
+            mostrarCompras(comprasFiltradas);
+            calcularResumen(comprasFiltradas);
+        }
+
+        // Limpiar filtros
+        function limpiarFiltros() {
+            document.getElementById('fecha_filtro').value = '';
+            document.getElementById('estado_filtro').value = '';
+            mostrarCompras(comprasData);
+            calcularResumen(comprasData);
+        }
+
+        // Ver detalle de compra
+        function verDetalleCompra(idCompra) {
+            const compra = comprasData.find(c => c.id === idCompra);
+            if (compra) {
+                const detalle = `
+                    <strong>Detalle de la Compra:</strong><br>
+                    <strong>ID:</strong> ${compra.id}<br>
+                    <strong>Evento:</strong> ${compra.evento?.nombre || 'N/A'}<br>
+                    <strong>Localidad:</strong> ${compra.localidadDetalle?.nombre || 'N/A'}<br>
+                    <strong>Cantidad:</strong> ${compra.cantidad}<br>
+                    <strong>Precio Total:</strong> ${apiUtils.formatCurrency(compra.precioTotal)}<br>
+                    <strong>Fecha:</strong> ${compra.fechaCompra ? apiUtils.formatDateForDisplay(compra.fechaCompra) : 'N/A'}<br>
+                    <strong>Estado:</strong> ${getEstadoTexto(compra.idEstadoTransaccion)}<br>
+                    <strong>Método de Pago:</strong> ${getMetodoPagoTexto(compra.idMetodoPago)}
+                `;
+                
+                apiUtils.showNotification(detalle, 'info');
+            }
+        }
+
+        // Cancelar compra
+        async function cancelarCompra(idCompra) {
+            if (confirm('¿Está seguro de que desea cancelar esta compra?')) {
+                try {
+                    apiUtils.showLoading(true, 'Cancelando compra...');
+                    
+                    // Aquí se implementaría la lógica para cancelar la compra
+                    // Por ahora solo mostramos un mensaje
+                    apiUtils.showNotification('Funcionalidad de cancelación en desarrollo', 'info');
+                    
+                } catch (error) {
+                    console.error('Error al cancelar compra:', error);
+                    apiUtils.showNotification('Error al cancelar la compra', 'error');
+                } finally {
+                    apiUtils.showLoading(false);
+                }
+            }
+        }
+
+        // Funciones auxiliares
+        function getEstadoTexto(idEstado) {
+            const estados = {
+                1: 'Pendiente',
+                2: 'Confirmado',
+                3: 'Cancelado'
+            };
+            return estados[idEstado] || 'Desconocido';
+        }
+
+        function getEstadoBadgeClass(idEstado) {
+            const clases = {
+                1: 'warning',
+                2: 'success',
+                3: 'danger'
+            };
+            return clases[idEstado] || 'secondary';
+        }
+
+        function getMetodoPagoTexto(idMetodo) {
+            const metodos = {
+                1: 'Efectivo',
+                2: 'Tarjeta de Crédito',
+                3: 'Tarjeta Débito',
+                4: 'Transferencia'
+            };
+            return metodos[idMetodo] || 'Desconocido';
+        }
+
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            apiUtils.logout();
+            window.location.href = 'login.html';
+        }
+    </script>
 
 </body>
 
